@@ -22,13 +22,31 @@ It will take of installing the software and generating self-signed server-client
 
 ### Beginning with taskd
 
-Simply include the taskd class on whatever node you want it to be set up:
+First, some basic details for certificate generation need to be set (with hiera):
+
+```
+taskd::pki_vars:
+        organization: 'My Cool Org'
+        country: 'DE'
+        state: 'North Rhine-Westphalia'
+        locality: 'Cologne'
+```
+
+Additional variables have defined defaults:
+
+| Variable        | Default value |
+|-----------------|---------------|
+| cn              | `$fqdn`       |
+| bits            | 4096          |
+| expiration_days | 365           |
+
+Then simply include the taskd class on whatever node you want it to be set up:
 
 ```
 include taskd
 ```
 
-This will install taskd, make it listen on the default port (FIXME) on your node's FQDN, and generate the default self-signed certificates.
+This will install taskd, make it listen on the default port (53589) on your node's FQDN, and generate the default self-signed certificates.
 
 ## Usage
 
@@ -51,8 +69,7 @@ Users need a complete list of your module's classes, types, defined types provid
 
 ## Limitations
 
-FIXME
-This is where you list OS compatibility, version compatibility, etc. If there are Known Issues, you might want to include them under their own heading here.
+This module has only been tested (HAHA CHANGE WHEN IT'S TRUE) with Debian `stretch` (9.0). It should work with `jessie` using backports.
 
 ## Development
 

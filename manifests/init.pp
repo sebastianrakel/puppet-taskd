@@ -13,15 +13,6 @@ class taskd (
   String $config_file,
   Hash $config,
   Struct[{
-    bits            => Optional[Numeric],
-    expiration_days => Optional[Numeric],
-    organization    => String[1],
-    cn              => String[1],
-    country         => String[1],
-    state           => String[1],
-    locality        => String[1],
-  }] $pki_vars,
-  Struct[{
     client => {
       cert => String[1],
       key  => String[1],
@@ -37,6 +28,15 @@ class taskd (
   }] $certificate,
   Optional[String] $pki_base_dir,
   Optional[String] $pki_vars_file,
+  Optional[Struct[{
+    bits            => Optional[Numeric],
+    expiration_days => Optional[Numeric],
+    cn              => Optional[String[1]],
+    organization    => String[1],
+    country         => String[1],
+    state           => String[1],
+    locality        => String[1],
+  }]] $pki_vars,
   Boolean $generate_certificates = true,
 ) {
   package { $package_name:
@@ -64,10 +64,27 @@ class taskd (
       path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
       creates => $certificate['server']['cert'],
     }
+    ~> exec { 'Copy certificates to data directory':
+      command     => "cp ${pki_base_dir}/*.pem ${config['root']}",
+      path        => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
+      refreshonly => true,
+    }
   }
 
+  # Template out configuration file
   file { $config_file:
     ensure  => present,
     content => template('config'),
   }
+
+  # Ensure the taskd root directory exists
+  file { $config['root']:
+    ensure => directory,
+  }
+
+  # Ensure the organization directory exists
+  file { "${config['root']}/orgs":
+    ensure => directory,
+  }
+
 }

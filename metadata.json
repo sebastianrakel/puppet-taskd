@@ -1,6 +1,6 @@
 {
   "name": "towo-taskd",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Tobias Wolter",
   "summary": "Installs and configures the taskwarrior taskd",
   "license": "Apache-2.0",
@@ -12,13 +12,17 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "8"
+        "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "16.04"
+        "16.04",
+        "16.10",
+        "17.04",
+        "17.10",
+        "18.04"
       ]
     }
   ],

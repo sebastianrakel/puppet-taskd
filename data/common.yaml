@@ -4,3 +4,4 @@ config_file: '/etc/taskd/config'
 pki_vars:
         bits: 4096
         expiration_days: 365
+        cn: "%{::fqdn}"
