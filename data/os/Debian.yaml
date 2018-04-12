@@ -1,2 +1,17 @@
 ---
 package_name: 'taskd'
+pki_base_dir: '/usr/share/taskd/pki'
+pki_vars_file: "%{alias('pki_base_dir')}/vars"
+config:
+        pid.file: '/run/taskd.pid'
+        root: '/var/lib/taskd'
+certificate:
+        client:
+                cert: "%{alias('pki_base_dir')}/client.cert.pem"
+                key: "%{alias('pki_base_dir')}/client.key.pem"
+        server:
+                cert: "%{alias('pki_base_dir')}/server.cert.pem"
+                key: "%{alias('pki_base_dir')}/server.key.pem"
+                crl: "%{alias('pki_base_dir')}/server.crl.pem"
+        ca:
+                cert: "%{alias('pki_base_dir')}/ca.cert.pem"
