@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.2.1
+
+**Features**
+* Generate user certificates.
+
+**Bugfixes**
+n/a
+
+**Known Issues**
+I'll tell you after testing it.
+
 ## Release 0.2.0
 
 **Features**

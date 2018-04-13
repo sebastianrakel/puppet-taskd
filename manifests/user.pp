@@ -8,19 +8,29 @@
 #   taskd::user { 'namevar': }
 define taskd::user(
   String $user = $name,
-  String $group = $name,
+  String $org = $name,
 ) {
   # TODO is there a better way to do this without falling back to ::params?
   $config = lookup('taskd::config')
   $taskd_executable = lookup('taskd::taskd_executable')
+  $pki_base_dir = lookup('taskd::pki_base_dir')
 
-  exec { 'Create group if necessary':
-    command => "${taskd_executable} --data ${config['root']} add org ${group}",
-    onlyif  => "/usr/bin/test ! -d ${config['root']}/orgs/${group}",
+  exec { "Create org ${org} if necessary":
+    command => "${taskd_executable} --data ${config['root']} add org ${org}",
+    onlyif  => "/usr/bin/test ! -d ${config['root']}/orgs/${org}",
   }
 
-  exec { 'Create user if necessary':
-    command => "${taskd_executable} --data ${config['root']} add user ${group} ${user}",
-    onlyif  => "/bin/grep -v '^user=${user}$' -r ${config['root']}/orgs/${group}",
+  exec { "Create user ${user} if necessary":
+    command => "${taskd_executable} --data ${config['root']} add user ${org} ${user}",
+    onlyif  => "/bin/grep -v '^user=${user}$' -r ${config['root']}/orgs/${org}",
+  }
+
+  # Sadly, taskd does bad SSL where the user certificate is yet another
+  # certificate for the server, just a new key.  This would need a
+  # institutional fix, so we're running with it at the moment.
+  exec { "Create certificate for ${user}":
+    command => "${pki_base_dir}/generate.client ${config['root']}/${org}_${user}",
+    cwd     => $pki_base_dir,
+    creates => "${config['root']}/${org}_${user}.cert.pem",
   }
 }
