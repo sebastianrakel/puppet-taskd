@@ -2,7 +2,9 @@
 taskd::package_name: 'taskd'
 taskd::taskd_executable: '/usr/bin/taskd'
 taskd::pki_base_dir: '/usr/share/taskd/pki'
-taskd::pki_vars_file: "%{lookup('pki_base_dir')}/vars"
+taskd::pki_vars_file: "%{lookup('taskd::config.root')}/vars"
+taskd::owner: 'Debian-taskd'
+taskd::group: 'Debian-taskd'
 taskd::config:
         pid.file: '/run/taskd.pid'
         root: '/var/lib/taskd'

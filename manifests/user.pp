@@ -14,15 +14,19 @@ define taskd::user(
   $config = lookup('taskd::config')
   $taskd_executable = lookup('taskd::taskd_executable')
   $pki_base_dir = lookup('taskd::pki_base_dir')
+  $owner = lookup('taskd::owner')
+  $group = lookup('taskd::group')
 
   exec { "Create org ${org} if necessary":
     command => "${taskd_executable} add --data ${config['root']} org ${org}",
     onlyif  => "/usr/bin/test ! -d ${config['root']}/orgs/${org}",
+    user    => $owner,
   }
 
   exec { "Create user ${user} if necessary":
     command => "${taskd_executable} add --data ${config['root']} user ${org} ${user}",
     unless  => "/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
+    user    => $owner,
   }
 
   # Sadly, taskd does bad SSL where the user certificate is yet another
@@ -32,5 +36,6 @@ define taskd::user(
     command => "${pki_base_dir}/generate.client ${config['root']}/${org}_${user}",
     cwd     => $pki_base_dir,
     creates => "${config['root']}/${org}_${user}.cert.pem",
+    user    => $owner,
   }
 }

@@ -11,6 +11,8 @@ class taskd (
   String $package_name,
   String $service_name,
   String $config_file,
+  String $owner,
+  String $group,
   Hash $config,
   Struct[{
     client => Struct[{
@@ -29,9 +31,9 @@ class taskd (
   Optional[String] $pki_base_dir,
   Optional[String] $pki_vars_file,
   Optional[Struct[{
-    bits            => Optional[Numeric],
-    expiration_days => Optional[Numeric],
-    cn              => Optional[String[1]],
+    bits            => Numeric,
+    expiration_days => Numeric,
+    cn              => String[1],
     organization    => String[1],
     country         => String[1],
     state           => String[1],
@@ -43,31 +45,33 @@ class taskd (
     ensure => present,
   }
 
-  service { $service_name:
-    ensure  => running,
-    enable  => true,
-    require => Package[$package_name],
-  }
-
-    # Generate taskserver certificates unless user says otherwise
+  # Generate taskserver certificates unless user says otherwise
   if $generate_certificates {
     # Location for the SSL variable file
     file { $pki_vars_file:
       ensure  => present,
       content => template('taskd/vars.erb'),
       require => Package[$package_name],
+      owner   => $owner,
+      group   => $group,
     }
 
-    exec { 'Generate taskserver certificaties':
-      command => "${pki_base_dir}/generate",
-      cwd     => $pki_base_dir,
-      path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
-      creates => $certificate['server']['cert'],
+    [ 'ca', 'server', 'client'].each |String $type| {
+      exec { "Generate taskserver ${type} certificates":
+        command => "${pki_base_dir}/generate.${type}",
+        cwd     => $config['root'],
+        path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
+        creates => $certificate[$type]['cert'],
+        user    => $owner,
+      }
     }
-    ~> exec { 'Copy certificates to data directory':
-      command     => "cp ${pki_base_dir}/*.pem ${config['root']}",
-      path        => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
-      refreshonly => true,
+
+    exec { 'Generate taskserver revocation list':
+      command => "${pki_base_dir}/generate.crl",
+      cwd     => $config['root'],
+      path    => [ '/usr/bin', '/usr/sbin', '/bin', '/sbin' ],
+      creates => $certificate['server']['crl'],
+      user    => $owner,
     }
   }
 
@@ -75,16 +79,28 @@ class taskd (
   file { $config_file:
     ensure  => present,
     content => template('taskd/config.erb'),
+    owner   => $owner,
+    group   => $group,
   }
 
   # Ensure the taskd root directory exists
   file { $config['root']:
     ensure => directory,
+    owner  => $owner,
+    group  => $group,
   }
 
   # Ensure the organization directory exists
   file { "${config['root']}/orgs":
     ensure => directory,
+    owner  => $owner,
+    group  => $group,
   }
 
+  # Ensures service is running after configuration has been rolled out.
+  service { $service_name:
+    ensure  => running,
+    enable  => true,
+    require => Package[$package_name],
+  }
 }
