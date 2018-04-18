@@ -54,7 +54,7 @@ class taskd (
     # Location for the SSL variable file
     file { $pki_vars_file:
       ensure  => present,
-      content => template('vars'),
+      content => template('taskd/vars.erb'),
       require => Package[$package_name],
     }
 
@@ -74,7 +74,7 @@ class taskd (
   # Template out configuration file
   file { $config_file:
     ensure  => present,
-    content => template('config'),
+    content => template('taskd/config.erb'),
   }
 
   # Ensure the taskd root directory exists
