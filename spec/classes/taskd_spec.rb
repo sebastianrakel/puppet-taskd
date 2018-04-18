@@ -18,7 +18,11 @@ describe 'taskd' do
         }
       end
 
-      it { is_expected.to compile }
+      it do
+        is_expected.to compile
+        is_expected.to contain_file('/var/lib/taskd/orgs')
+      end
     end
   end
 end
+#  vim: set ts=2 sw=2 tw=0 et :
