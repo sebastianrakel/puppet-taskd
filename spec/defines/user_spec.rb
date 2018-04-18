@@ -12,7 +12,7 @@ describe 'taskd::user' do
 
       it do
         is_expected.to compile
-        is_expected.to contain_file('')
+        is_expected.to contain_file('/var/lib/taskd/orgs')
       end
     end
   end
