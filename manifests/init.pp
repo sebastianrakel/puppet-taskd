@@ -46,7 +46,7 @@ class taskd (
   service { $service_name:
     ensure  => running,
     enable  => true,
-    require => Package[$::package_name],
+    require => Package[$package_name],
   }
 
     # Generate taskserver certificates unless user says otherwise
