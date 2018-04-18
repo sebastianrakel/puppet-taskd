@@ -1,5 +1,8 @@
 # taskd
 
+[![Build Status](https://travis-ci.org/towo/puppet-taskd.svg?branch=master)(https://travis-ci.org/towo/puppet-taskd/builds)]
+[![Coverage Status](https://coveralls.io/repos/github/towo/puppet-taskd/badge.svg?branch=master)](https://coveralls.io/github/towo/puppet-taskd?branch=master)
+
 #### Table of Contents
 
 1. [Description](#description)
