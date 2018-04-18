@@ -10,7 +10,10 @@ describe 'taskd::user' do
     context "on #{os}" do
       let(:facts) { os_facts }
 
-      it { is_expected.to compile }
+      it do
+        is_expected.to compile
+        is_expected.to contain_file('')
+      end
     end
   end
 end
