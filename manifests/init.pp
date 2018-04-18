@@ -13,18 +13,18 @@ class taskd (
   String $config_file,
   Hash $config,
   Struct[{
-    client => {
+    client => Struct[{
       cert => String[1],
       key  => String[1],
       crl  => String[1],
-    },
-    server => {
+    }],
+    server => Struct[{
       cert => String[1],
       key  => String[1],
-    },
-    ca     => {
+    }],
+    ca     => Struct[{
       cert => String[1],
-    },
+    }],
   }] $certificate,
   Optional[String] $pki_base_dir,
   Optional[String] $pki_vars_file,
