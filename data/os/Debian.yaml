@@ -1,19 +1,19 @@
 ---
-package_name: 'taskd'
-taskd_executable: '/usr/bin/taskd'
-pki_base_dir: '/usr/share/taskd/pki'
-pki_vars_file: "%{alias('pki_base_dir')}/vars"
-config:
+taskd::package_name: 'taskd'
+taskd::taskd_executable: '/usr/bin/taskd'
+taskd::pki_base_dir: '/usr/share/taskd/pki'
+taskd::pki_vars_file: "%{lookup('pki_base_dir')}/vars"
+taskd::config:
         pid.file: '/run/taskd.pid'
         root: '/var/lib/taskd'
         server: "%{::fqdn}:53589"
-certificate:
+taskd::certificate:
         client:
-                cert: "%{alias('config.root')}/client.cert.pem"
-                key: "%{alias('config.root')}/client.key.pem"
+                cert: "%{lookup('taskd::config.root')}/client.cert.pem"
+                key: "%{lookup('taskd::config.root')}/client.key.pem"
         server:
-                cert: "%{alias('config.root')}/server.cert.pem"
-                key: "%{alias('config.root')}/server.key.pem"
-                crl: "%{alias('config.root')}/server.crl.pem"
+                cert: "%{lookup('taskd::config.root')}/server.cert.pem"
+                key: "%{lookup('taskd::config.root')}/server.key.pem"
+                crl: "%{lookup('taskd::config.root')}/server.crl.pem"
         ca:
-                cert: "%{alias('config.root')}/ca.cert.pem"
+                cert: "%{lookup('taskd::config.root')}/ca.cert.pem"

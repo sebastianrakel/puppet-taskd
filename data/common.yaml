@@ -1,7 +1,7 @@
 ---
-service_name: 'taskd'
-config_file: '/etc/taskd/config'
-pki_vars:
+taskd::service_name: 'taskd'
+taskd::config_file: '/etc/taskd/config'
+taskd::pki_vars:
         bits: 4096
         expiration_days: 365
         cn: "%{::fqdn}"
