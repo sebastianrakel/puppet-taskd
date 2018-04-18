@@ -5,7 +5,7 @@ Vagrant.configure('2') do |config|
     v.vm.hostname = 'puppet-taskd'
     v.vm.box = 'debian/stretch64'
     v.vm.network :private_network,
-      :ip => '192.168.254.2'
+                 :ip => '192.168.254.2'
     # v.vm.provision "file",
     #   source: ".",
     #   destination: "/tmp/modules/taskd"
@@ -17,11 +17,12 @@ Vagrant.configure('2') do |config|
     # v.librarian_puppet.placeholder_filename = ".gitkeep"
     v.vm.provision :shell, path: 'examples/vagrant/provision.sh'
     # v.vm.provision :puppet, :options => [ "--yamldir /tmp/vagrant/data", "--modulepath /tmp/vagrant/modules" ] do |puppet|
-    v.vm.provision :puppet, :options => [ '--yamldir /tmp/vagrant/data', '--modulepath /tmp/vagrant/modules' ] do |puppet|
+    v.vm.provision :puppet,
+                   :options => [ '--yamldir /tmp/vagrant/data', '--modulepath /tmp/vagrant/modules' ] do |puppet|
       puppet.manifests_path = 'examples'
       puppet.manifest_file = 'init.pp'
       # puppet.hiera_config_path = 'hiera.yaml'
-      puppet.working_directory = "/tmp/vagrant"
+      puppet.working_directory = '/tmp/vagrant'
     end
   end
 end
