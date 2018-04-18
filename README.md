@@ -71,6 +71,12 @@ Users need a complete list of your module's classes, types, defined types provid
 
 This module has only been tested (HAHA CHANGE WHEN IT'S TRUE) with Debian `stretch` (9.0). It should work with `jessie` using backports.
 
+## Testing
+
+A Vagrantfile is provided to test the working state of the module. Using the
+Vagrantfile requires `vagrant-puppet-install`. Just execute it with `vagrant
+up`.
+
 ## Development
 
 FIXME
