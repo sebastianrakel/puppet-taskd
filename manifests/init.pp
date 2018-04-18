@@ -16,11 +16,11 @@ class taskd (
     client => Struct[{
       cert => String[1],
       key  => String[1],
-      crl  => String[1],
     }],
     server => Struct[{
       cert => String[1],
       key  => String[1],
+      crl  => String[1],
     }],
     ca     => Struct[{
       cert => String[1],
