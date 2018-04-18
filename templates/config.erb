@@ -7,5 +7,5 @@
 
 <% ['server', 'client', 'ca'].each do |item| -%>
 <% @certificate[item].each do |key, value| -%>
-<%= item %>.<%= key %> <%= value %>
+<%= item %>.<%= key %>=<%= value %>
 <% end -%><% end -%>
