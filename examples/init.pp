@@ -6,3 +6,8 @@ class { 'taskd':
     locality     => 'Cologne',
   }
 }
+
+taskd::user { 'Willi Millowitsch':
+  user => 'Willi',
+  org  => 'Millowitsch',
+}

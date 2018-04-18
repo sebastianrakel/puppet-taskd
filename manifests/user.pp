@@ -16,13 +16,13 @@ define taskd::user(
   $pki_base_dir = lookup('taskd::pki_base_dir')
 
   exec { "Create org ${org} if necessary":
-    command => "${taskd_executable} --data ${config['root']} add org ${org}",
+    command => "${taskd_executable} add --data ${config['root']} org ${org}",
     onlyif  => "/usr/bin/test ! -d ${config['root']}/orgs/${org}",
   }
 
   exec { "Create user ${user} if necessary":
-    command => "${taskd_executable} --data ${config['root']} add user ${org} ${user}",
-    onlyif  => "/bin/grep -v '^user=${user}$' -r ${config['root']}/orgs/${org}",
+    command => "${taskd_executable} add --data ${config['root']} user ${org} ${user}",
+    unless  => "/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
   }
 
   # Sadly, taskd does bad SSL where the user certificate is yet another
