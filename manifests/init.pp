@@ -90,6 +90,7 @@ class taskd (
     content => template('taskd/config.erb'),
     owner   => $owner,
     group   => $group,
+    notify  => Service[$service_name],
   }
 
   # Ensure the taskd root directory exists
