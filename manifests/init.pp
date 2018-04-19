@@ -14,14 +14,14 @@ class taskd (
   String $owner,
   String $group,
   Struct[{
-    pid.file    => String[1],
-    root        => String[1],
-    server.cert => String[1],
-    server.key  => String[1],
-    server.crl  => String[1],
-    clinet.cert => String[1],
-    client.key  => String[1],
-    ca.cert     => String[1],
+    'pid.file'    => String[1],
+    'root'        => String[1],
+    'server.cert' => String[1],
+    'server.key'  => String[1],
+    'server.crl'  => String[1],
+    'clinet.cert' => String[1],
+    'client.key'  => String[1],
+    'ca.cert'     => String[1],
   }] $config,
   Struct[{
     client => Struct[{
