@@ -2,6 +2,8 @@
 lookup_options:
         taskd::pki_vars:
                 merge: hash
+        taskd::config:
+                merge: hash
 taskd::service_name: 'taskd'
 taskd::config_file: '/etc/taskd/config'
 taskd::pki_vars:
