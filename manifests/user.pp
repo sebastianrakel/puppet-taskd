@@ -33,8 +33,8 @@ define taskd::user(
   # certificate for the server, just a new key.  This would need a
   # institutional fix, so we're running with it at the moment.
   exec { "Create certificate for ${user}":
-    command => "${pki_base_dir}/generate.client ${config['root']}/${org}_${user}",
-    cwd     => $pki_base_dir,
+    command => "${pki_base_dir}/generate.client ${org}_${user}",
+    cwd     => $config['root'],
     creates => "${config['root']}/${org}_${user}.cert.pem",
     user    => $owner,
   }
