@@ -18,9 +18,82 @@ describe 'taskd' do
         }
       end
 
+      case os
+      when /^debian/i
+        taskd_data_root = '/var/lib/taskd'
+        taskd_config = '/etc/taskd/config'
+        taskd_service_name = 'taskd'
+        taskd_user = 'Debian-taskd'
+        taskd_group = 'Debian-taskd'
+        taskd_package_name = 'taskd'
+
+      when /^ubuntu/i
+        taskd_data_root = '/var/lib/taskd'
+        taskd_config = '/etc/taskd/config'
+        taskd_service_name = 'taskd'
+        taskd_user = 'Debian-taskd'
+        taskd_group = 'Debian-taskd'
+        taskd_package_name = 'taskd'
+
+      end
+
+      it { is_expected.to compile }
+      it { is_expected.to contain_file(taskd_config).that_notifies('Service[' + taskd_service_name + ']') }
       it do
-        is_expected.to compile
-        is_expected.to contain_file('/var/lib/taskd/orgs')
+        is_expected.to contain_file(taskd_config).with(
+          ensure: 'present',
+          owner: taskd_user,
+          group: taskd_group,
+        )
+      end
+
+      it do
+        is_expected.to contain_file(taskd_data_root).with(
+          ensure: 'directory',
+          owner: taskd_user,
+          group: taskd_group,
+        )
+      end
+
+      it do
+        is_expected.to contain_file(taskd_data_root + '/orgs').with(
+          ensure: 'directory',
+          owner: taskd_user,
+          group: taskd_group,
+        )
+      end
+
+      it do
+        is_expected.to contain_service(taskd_service_name).with(
+          ensure: 'running',
+          enable: true
+        )
+      end
+
+      it { is_expected.to contain_service(taskd_service_name).that_requires('Package[' + taskd_package_name + ']') }
+
+      context 'with generate_certificates => true' do
+        let(:params) do
+          super().merge({ 'generate_certificates' => true })
+        end
+
+        it { is_expected.to contain_file(taskd_data_root + '/vars') }
+        it { is_expected.to contain_exec('Generate taskserver ca certificates') }
+        it { is_expected.to contain_exec('Generate taskserver server certificates') }
+        it { is_expected.to contain_exec('Generate taskserver client certificates') }
+        it { is_expected.to contain_exec('Generate taskserver revocation list') }
+      end
+
+      context 'with generate_certificates => false' do
+        let(:params) do
+          super().merge({ 'generate_certificates' => false })
+        end
+
+        it { is_expected.not_to contain_file(taskd_data_root + '/vars') }
+        it { is_expected.not_to contain_exec('Generate taskserver ca certificates') }
+        it { is_expected.not_to contain_exec('Generate taskserver server certificates') }
+        it { is_expected.not_to contain_exec('Generate taskserver client certificates') }
+        it { is_expected.not_to contain_exec('Generate taskserver revocation list') }
       end
     end
   end
