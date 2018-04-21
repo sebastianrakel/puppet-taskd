@@ -19,7 +19,7 @@ describe 'taskd' do
       end
 
       case os
-      when /^debian/i
+      when %r{^debian}i
         taskd_data_root = '/var/lib/taskd'
         taskd_config = '/etc/taskd/config'
         taskd_service_name = 'taskd'
@@ -27,7 +27,7 @@ describe 'taskd' do
         taskd_group = 'Debian-taskd'
         taskd_package_name = 'taskd'
 
-      when /^ubuntu/i
+      when %r{^ubuntu}i
         taskd_data_root = '/var/lib/taskd'
         taskd_config = '/etc/taskd/config'
         taskd_service_name = 'taskd'
@@ -66,7 +66,7 @@ describe 'taskd' do
       it do
         is_expected.to contain_service(taskd_service_name).with(
           ensure: 'running',
-          enable: true
+          enable: true,
         )
       end
 
@@ -74,7 +74,7 @@ describe 'taskd' do
 
       context 'with generate_certificates => true' do
         let(:params) do
-          super().merge({ 'generate_certificates' => true })
+          super().merge('generate_certificates' => true)
         end
 
         it { is_expected.to contain_file(taskd_data_root + '/vars') }
@@ -86,7 +86,7 @@ describe 'taskd' do
 
       context 'with generate_certificates => false' do
         let(:params) do
-          super().merge({ 'generate_certificates' => false })
+          super().merge('generate_certificates' => false)
         end
 
         it { is_expected.not_to contain_file(taskd_data_root + '/vars') }
