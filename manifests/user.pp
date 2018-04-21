@@ -27,7 +27,7 @@ define taskd::user(
 
     exec { "Create user ${user} if necessary":
       command => "${taskd_executable} add --data ${config['root']} user ${org} ${user}",
-      unless  => "/usr/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
+      unless  => "/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
       user    => $owner,
     }
 
@@ -44,7 +44,7 @@ define taskd::user(
   else {
     exec { "Delete user ${user} if necessary":
       command => "${taskd_executable} remove ${org} ${user}",
-      onlyif  => "/usr/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
+      onlyif  => "/bin/grep '^user=${user}$' -r ${config['root']}/orgs/${org}",
       user    => $owner,
     }
 
