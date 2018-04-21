@@ -5,6 +5,8 @@
 <%= key %>=<%= value %>
 <% end -%>
 
+trust=strict
+
 <% ['server', 'client', 'ca'].each do |item| -%>
 <% @certificate[item].each do |key, value| -%>
 <%= item %>.<%= key %>=<%= value %>
