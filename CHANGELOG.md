@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.0.2
+
+**Features**
+
+* Improve metadata for Puppet Forge.
+
+**Bugfixes**
+
+* Indentation issue in CHANGELOG.
+
+**Known Issues**
+
+* Vagrant doesn't work correctly (#9)
+  * Vagrant test VMs for Ubuntu don't seem to mount /vagrant (probably an issue
+    with generic boxes).
+  * Puppet deb files aren't available for all the dists.
+
 ## Release 1.0.1
 
 The "of course I forgot the documentation" release.
@@ -17,9 +34,9 @@ The "of course I forgot the documentation" release.
 **Known Issues**
 
 * Vagrant doesn't work correctly (#9)
-* Vagrant test VMs for Ubuntu don't seem to mount /vagrant (probably an issue
-  with generic boxes).
-* Puppet deb files aren't available for all the dists.
+  * Vagrant test VMs for Ubuntu don't seem to mount /vagrant (probably an issue
+    with generic boxes).
+  * Puppet deb files aren't available for all the dists.
 
 ## Release 1.0.0
 

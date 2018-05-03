@@ -1,12 +1,13 @@
 {
   "name": "towo-taskd",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Tobias Wolter",
   "summary": "Installs and configures the taskwarrior taskd",
   "license": "Apache-2.0",
   "source": "https://github.com/towo/puppet-taskd",
+  "project_page": "https://github.com/towo/puppet-taskd",
+  "issues_url": "https://github.com/towo/puppet-taskd/issues",
   "dependencies": [
-
   ],
   "operatingsystem_support": [
     {
