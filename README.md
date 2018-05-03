@@ -72,7 +72,7 @@ Users need a complete list of your module's classes, types, defined types provid
 
 ## Limitations
 
-This module has only been tested (HAHA CHANGE WHEN IT'S TRUE) with Debian `stretch` (9.0). It should work with `jessie` using backports.
+This module has only been tested with Debian `stretch` (9.0). It should work with `jessie` using backports.
 
 ## Testing
 

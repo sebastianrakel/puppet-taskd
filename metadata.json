@@ -1,6 +1,6 @@
 {
   "name": "towo-taskd",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "author": "Tobias Wolter",
   "summary": "Installs and configures the taskwarrior taskd",
   "license": "Apache-2.0",
