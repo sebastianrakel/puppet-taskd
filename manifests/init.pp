@@ -2,11 +2,35 @@
 #
 # Installs and configures the taskwarrior taskd server.
 # It will generate self-signed certificates in the default configuration.
+# Module defaults are sourced from hiera.
 #
 # @summary Installs and configures the taskwarrior taskd server.
 #
 # @example
 #   include taskd
+#
+# @param package_name
+#   The package name of taskd to use for installation.
+# @param service_name
+#   The installed service name for taskd.
+# @param config_file
+#   Location of the taskd configuration.
+# @param owner
+#   Owner for files/directories. Should be the taskd user.
+# @param group
+#   Group for files/directories. Should be the taskd user's group.
+# @param config
+#   (Additional) configuration options that should be defined; the module supplies minimal defaults via hiera.
+# @param certificate
+#   Hash of configuration settings for client, server and ca cert/key/crl.
+# @param pki_base_dir
+#   Base directory of the taskd PKI scripts. Only used when $generate_certificates is true.
+# @param pki_vars_file
+#   Location to put PKI vars file for generation. Only used when $generate_certificates is true.
+# @param pki_vars
+#   PKI variables for generation certificates. Only used when $generate_certificates is true.
+# @param generate_certificates
+#   Generate self-signed certificates with the taskd PKI. Defaults to 'true'.
 class taskd (
   String $package_name,
   String $service_name,

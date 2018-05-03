@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="puppet_class_list_link"
+        href="puppet_class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1>taskd</h1>
+
+<p><a href="https://travis-ci.org/towo/puppet-taskd/builds"><img src="https://travis-ci.org/towo/puppet-taskd.svg?branch=master" alt="Build Status" /></a>
+<a href="https://coveralls.io/github/towo/puppet-taskd?branch=master"><img src="https://coveralls.io/repos/github/towo/puppet-taskd/badge.svg?branch=master" alt="Coverage Status" /></a></p>
+
+<h4>Table of Contents</h4>
+
+<ol>
+<li><a href="#description">Description</a></li>
+<li><a href="#setup">Setup - The basics of getting started with taskd</a>
+
+<ul>
+<li><a href="#what-taskd-affects">What taskd affects</a></li>
+<li><a href="#setup-requirements">Setup requirements</a></li>
+<li><a href="#beginning-with-taskd">Beginning with taskd</a></li>
+</ul>
+</li>
+<li><a href="#usage">Usage - Configuration options and additional functionality</a></li>
+<li><a href="#reference">Reference - An under-the-hood peek at what the module is doing and how</a></li>
+<li><a href="#limitations">Limitations - OS compatibility, etc.</a></li>
+<li><a href="#development">Development - Guide for contributing to the module</a></li>
+</ol>
+
+
+<h2>Description</h2>
+
+<p>This module will install the <a href="https://taskwarrior.org">Taskwarrior</a> "taskserver" (taskd).</p>
+
+<p>It will take of installing the software and generating self-signed server-client certificates.</p>
+
+<h2>Setup</h2>
+
+<h3>Beginning with taskd</h3>
+
+<p>First, some basic details for certificate generation need to be set (with hiera):</p>
+
+<pre class="code yaml"><code class="yaml">taskd::pki_vars:
+  organization: &#39;My Cool Org&#39;
+  country: &#39;DE&#39;
+  state: &#39;North Rhine-Westphalia&#39;
+  locality: &#39;Cologne&#39;
+</code></pre>
+
+<p>Additional variables have defined defaults:</p>
+
+<table>
+<thead>
+<tr>
+<th> Variable        </th>
+<th> Default value </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> cn              </td>
+<td> <code>$fqdn</code>       </td>
+</tr>
+<tr>
+<td> bits            </td>
+<td> 4096          </td>
+</tr>
+<tr>
+<td> expiration_days </td>
+<td> 365           </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Then simply include the taskd class on whatever node you want it to be set up:</p>
+
+<pre class="code puppet"><code class="puppet">include taskd
+</code></pre>
+
+<p>This will install taskd, make it listen on the default port (53589) on your node's FQDN, and generate the default self-signed certificates.</p>
+
+<h2>Usage</h2>
+
+<h3>Creating users</h3>
+
+<p>A defined type <code>taskd::user</code> facilitates creating users. Example:</p>
+
+<pre class="code puppet"><code class="puppet">taskd::user { &#39;towo&#39;: }
+</code></pre>
+
+<p>You can specify the actual name of the user used as well as the org:</p>
+
+<pre class="code puppet"><code class="puppet">taskd::user { &#39;Tobias Wolter&#39;:
+  name =&gt; &#39;towo&#39;,
+  org  =&gt; &#39;My cool Org&#39;
+}
+</code></pre>
+
+<h2>Reference</h2>
+
+<p>FIXME
+Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in the README Reference section.</p>
+
+<ul>
+<li><p>If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.</p></li>
+<li><p>If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:</p>
+
+<ul>
+<li>The data type, if applicable.</li>
+<li>A description of what the element does.</li>
+<li>Valid values, if the data type doesn't make it obvious.</li>
+<li>Default value, if any.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Limitations</h2>
+
+<p>This module has only been tested with Debian <code>stretch</code> (9.0). It should work with <code>jessie</code> using backports.</p>
+
+<h2>Testing</h2>
+
+<p>A Vagrantfile is provided to test the working state of the module. Using the
+Vagrantfile requires <code>vagrant-puppet-install</code>. Just execute it with <code>vagrant
+up</code>.</p>
+
+<h2>Development</h2>
+
+<p>FIXME
+Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.</p>
+</div></div>
+
+      <div id="footer">
+     Generated by <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>.
+</div>
+
+    </div>
+  </body>
+</html>

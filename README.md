@@ -27,12 +27,12 @@ It will take of installing the software and generating self-signed server-client
 
 First, some basic details for certificate generation need to be set (with hiera):
 
-```
+```yaml
 taskd::pki_vars:
-        organization: 'My Cool Org'
-        country: 'DE'
-        state: 'North Rhine-Westphalia'
-        locality: 'Cologne'
+  organization: 'My Cool Org'
+  country: 'DE'
+  state: 'North Rhine-Westphalia'
+  locality: 'Cologne'
 ```
 
 Additional variables have defined defaults:
@@ -45,7 +45,7 @@ Additional variables have defined defaults:
 
 Then simply include the taskd class on whatever node you want it to be set up:
 
-```
+```puppet
 include taskd
 ```
 
@@ -53,22 +53,26 @@ This will install taskd, make it listen on the default port (53589) on your node
 
 ## Usage
 
-FIXME
-This section is where you describe how to customize, configure, and do the fancy stuff with your module here. It's especially helpful if you include usage examples and code samples for doing things with your module.
+### Creating users
+
+A defined type `taskd::user` facilitates creating users. Example:
+
+```puppet
+taskd::user { 'towo': }
+```
+
+You can specify the actual name of the user used as well as the org:
+
+```puppet
+taskd::user { 'Tobias Wolter':
+  name => 'towo',
+  org  => 'My cool Org'
+}
+```
 
 ## Reference
 
-FIXME
-Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in the README Reference section.
-
-* If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.
-
-* If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+Markdown documentation is available in [REFERENCE.md](REFERENCE.md). HTML documentation is available in [doc/](doc/index.html).
 
 ## Limitations
 
@@ -82,5 +86,6 @@ up`.
 
 ## Development
 
-FIXME
-Since your module is awesome, other users will want to play with it. Let them know what the ground rules for contributing are.
+Feel free to open issues.
+
+Use the standard GitHub approach of forking, pull request, etc. to submit code modifications.

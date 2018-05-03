@@ -1,11 +1,19 @@
 # taskd::user
 #
 # Generates a new user (certicate).
+# The certificate will be placed in the taskd root directory.
 #
 # @summary Generates a new user (certicate).
 #
 # @example
 #   taskd::user { 'namevar': }
+#
+# @param user
+#   Name of the user to create. Defaults to namevar.
+# @param org
+#   Name of the organization for the user. Will be created if necessary; defaults to namevar.
+# @param ensure
+#   State of the user; valid values are 'present' and 'absent'. Defaults to 'present'.
 define taskd::user(
   String $user = $name,
   String $org = $name,

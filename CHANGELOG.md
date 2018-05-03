@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.0.1
+
+The "of course I forgot the documentation" release.
+
+**Features**
+
+* Now has Puppet Strings-based documentation.
+
+**Bugfixes**
+
+* Remove FIXMEs from README.md.
+
+**Known Issues**
+
+* Vagrant test VMs for Ubuntu don't seem to mount /vagrant (probably an issue
+  with generic boxes).
+* Puppet deb files aren't available for all the dists.
+
 ## Release 1.0.0
 
 The "probably should not be 1.0.0" release.
