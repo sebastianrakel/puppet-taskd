@@ -16,6 +16,7 @@ The "of course I forgot the documentation" release.
 
 **Known Issues**
 
+* Vagrant doesn't work correctly (#9)
 * Vagrant test VMs for Ubuntu don't seem to mount /vagrant (probably an issue
   with generic boxes).
 * Puppet deb files aren't available for all the dists.
